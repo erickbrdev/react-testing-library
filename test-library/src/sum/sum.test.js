@@ -1,3 +1,4 @@
+/* eslint-disable jest/valid-expect */
 const sum = require('./sum')
 
 
@@ -18,6 +19,6 @@ test('sum', () => {
     expect(mockSomar).toHaveBeenLastCalledWith(5, 1);
 
     //restaurando a implementação original
-    sum.somar.mockRestore();
+    sum.somar.mockRestore();    
     expect(sum.somar(2,2)).resolves.toBe(4)
 })

@@ -1,68 +1,39 @@
-import React from 'react'
+// App.js
+import React from 'react';
 import './App.css';
 
-export default class App extends React.Component {
-  constructor(props){
-    super(props);
-
+class App extends React.Component {
+  constructor() {
+    super();
     this.state = {
-      email: '',
-      saveEmail: '',
-    }
+      joke: '',
+    };
+    
+    this.fetchJoke = this.fetchJoke.bind(this);
   }
 
-  handleChange = (value) => {
-    this.setState({
-      email: value
-    })
+  componentDidMount() {
+    this.fetchJoke();
+   }
+   
+   fetchJoke() {
+    const API_URL = 'https://icanhazdadjoke.com/';
+    const REQUEST_CONFIG = { headers: { Accept: 'application/json' } };
+    fetch(API_URL, REQUEST_CONFIG)
+      .then((response) => response.json())
+      .then((data) => this.setState({ joke: data.joke }));
   }
 
-  handleClick = (value) => {
-    this.setState({
-      email:'',
-      saveEmail: value
-    })
-  }
+  render() {
+    const { joke } = this.state;
 
-  clear = (e) => {
-    this.setState({
-      email:'',
-      saveEmail:'',
-    })
-  }
-
-  render(){
-    return(
-      <div className='container-email'>
-        <label htmlFor='input-email'>
-          Email: 
-          <input type= 'email' id='input-email' value={this.state.email} onChange={ (e) => {
-            this.handleChange(e.target.value)
-          }}></input>
-        </label>
-        <input 
-          type='button' 
-          id='send-btn' 
-          value='Enviar' 
-          onClick={() => this.handleClick(this.state.email)}
-          data-testid='id-send'
-        >          
-        </input>
-        <input 
-          type='button' 
-          id='back-btn' 
-          value='Cancelar' 
-          onClick={this.clear}
-          data-testid='id-back'
-        >
-        </input>
-        <div className='saved-email'>
-          <h2 data-testid= "saved-email">{`Valor: ${this.state.saveEmail}`}</h2>     
-        </div>
-        
+    return (
+      <div className="App">
+        <p>{joke}</p>
+        <button type="button" onClick={ this.fetchJoke }>Nova piada</button>
       </div>
-    )
+    );
   }
 }
-  
 
+export default App;
