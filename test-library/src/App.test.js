@@ -2,71 +2,49 @@ import { getByTestId, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
 
-describe('Testando o componente de email',() => {  
-  it('Verifica se existe o input do tipo "email"', () => {
+function numberRandom() {
+  return Math.floor(Math.random() * 100);
+}
 
-    render(<App />)
+function isEven() {
+  return (numberRandom() % 2 ) === 0
+}
 
-    const inputEmail = screen.getByLabelText('Email:')
+function sum() {
+  return numberRandom() + numberRandom()
+}
 
-    expect(inputEmail).toBeInTheDocument();
-    expect(inputEmail).toHaveProperty('type', 'email');
+describe('Aprendendo sobre mocks', () => {
+  it("Testa se a função sum() foi chamada", () => {
+    sum = jest.fn()
+    sum()
+
+    expect(sum).toHaveBeenCalled();
+  })
+
+  it("Testa o resultado da função sum()", () => {
+    sum = jest.fn().mockReturnValue(8);
+
+    expect(sum()).toBe(8)
+  })
+
+  it("Testa o número de vezes que a função sum() foi chamada", () => {
+    sum = jest.fn()
+    sum()
+    sum()
+
+    expect(sum).toHaveBeenCalledTimes(2)
+  })
+
+  it("Testa a função isEven() quando recebe um número par", () => {
+    numberRandom = jest.fn().mockReturnValue(2)
+
+    expect(isEven()).toBe(true)
+  })
+
+  it("Testa a função isEven() quando recebe um número ímpar", () => {
+    numberRandom = jest.fn().mockReturnValue(3)
+
+    expect(isEven()).toBe(false)
   })
 })
-describe('Verifica se existe o componente button e sua quantidade', () => {
-  it('Verifica a quantidade de botoes', () => {
-    
-    render(<App />)
-
-    const inputBtn = screen.getAllByRole('button')
-    
-    expect(inputBtn).toHaveLength(2)
-   
-  })
-});
-  
-describe('Verifica se há um botão com valor "Enviar"', () => {
-  it('Verifica o botão com valor "Enviar"', () => {
-    
-    render(<App />)
-
-    const btnSend = screen.getByTestId('id-send')
-
-    expect(btnSend).toBeInTheDocument()
-    expect(btnSend).toHaveValue('Enviar')
-    expect(btnSend).toHaveProperty('type', 'button')
-  })  
-})
-
-describe('Verifica a interação com os elementos', () => {
-
-  it('Verifica se ao inserir o email e clicar no botão "Enviar", o email é renderizado na tela.', () => {
-    
-    render(<App />)
-
-    const inputEmail = screen.getByLabelText('Email:')
-    const btn = screen.getByTestId('id-send')
-    const userEmail = screen.getByTestId("saved-email")
-
-    userEvent.type(inputEmail, 'test@email.com');
-    userEvent.click(btn)
-
-    expect(inputEmail).toHaveValue("");
-    expect(userEmail).toHaveTextContent('Valor: test@email.com');
-  });
-
-  it('Verifica se ao clicar no botão de "cancelar" meus componentes recebem ""', () => {
-    render(<App />)
-
-    const inputEmail = screen.getByLabelText('Email:')
-    const btn = screen.getByTestId('id-back')
-    const userEmail = screen.getByTestId("saved-email")    
-
-    userEvent.click(btn)
-
-    expect(inputEmail).toHaveValue("");
-    expect(userEmail).toHaveTextContent('Valor:');
-  })
-});
-
-
