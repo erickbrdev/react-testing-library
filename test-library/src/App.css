@@ -4,16 +4,7 @@
   box-sizing: border-box;
 }
 
-.container-email {
+.menu {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-  background-color: wheat;
-  height: 50vh;
-}
-
-.saved-email {
-  margin-left: 10px;
-  background-color:beige;
+  gap: 30px;
 }

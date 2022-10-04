@@ -1,38 +1,23 @@
-// App.js
 import React from 'react';
+import { Route, Switch} from "react-router-dom"
+import Menu from './Components/Menu';
+import Home from './Components/Home';
+import Projeto from './Components/Projeto';
+import NotFound from './Components/NotFound';
 import './App.css';
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      joke: '',
-    };
-    
-    this.fetchJoke = this.fetchJoke.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchJoke();
-   }
-   
-   fetchJoke() {
-    const API_URL = 'https://icanhazdadjoke.com/';
-    const REQUEST_CONFIG = { headers: { Accept: 'application/json' } };
-    fetch(API_URL, REQUEST_CONFIG)
-      .then((response) => response.json())
-      .then((data) => this.setState({ joke: data.joke }));
-  }
-
   render() {
-    const { joke } = this.state;
-
-    return (
-      <div className="App">
-        <p>{joke}</p>
-        <button type="button" onClick={ this.fetchJoke }>Nova piada</button>
+    return(
+      <div>
+        <Menu />
+        <Switch>
+          <Route exact path='/' component={ Home } />
+          <Route path='/projetos' component={ Projeto } />
+          <Route path='*' component={ NotFound } />
+        </Switch>
       </div>
-    );
+    )
   }
 }
 
