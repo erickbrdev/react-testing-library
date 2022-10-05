@@ -6,7 +6,12 @@ export default class Projeto extends Component {
     return(
       <div>
         <h1>Confira meus projetos</h1>    
-        <Link to='/notfound'>404</Link>    
+        <Link 
+          data-testid = 'error404'
+          to='/notfound'
+        >
+          404
+        </Link>    
       </div>
     )
   }
